@@ -6,8 +6,10 @@ import SettingsModal from '@/components/SettingsModal';
 import QuizGame from '@/components/QuizGame';
 import TeachMode from '@/components/TeachMode';
 
+type Mode = 'quiz' | 'teach';
+
 export default function Home() {
-  const [mode, setMode] = useState<'quiz' | 'teach'>('quiz');
+  const [mode, setMode] = useState<Mode>('quiz');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [questionCount, setQuestionCount] = useState(5);
@@ -48,13 +50,10 @@ export default function Home() {
         }} 
       />
     );
-  }
-
-  if (mode === 'teach') {
+  } else if (mode === 'teach') {
     return <TeachMode />;
-  }
-
-  return (
+  } else {
+    return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <div>
@@ -69,14 +68,14 @@ export default function Home() {
       {/* Mode Toggle */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '3rem' }}>
         <button 
-          className={`btn ${mode === 'quiz' ? 'btn-primary' : 'btn-secondary'}`}
+          className={`btn ${mode === ('quiz' as Mode) ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setMode('quiz')}
           style={{ minWidth: '150px', fontSize: '1.1rem' }}
         >
           📝 Quiz Mode
         </button>
         <button 
-          className={`btn ${mode === 'teach' ? 'btn-primary' : 'btn-secondary'}`}
+          className={`btn ${mode === ('teach' as Mode) ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setMode('teach')}
           style={{ minWidth: '150px', fontSize: '1.1rem' }}
         >
@@ -86,10 +85,10 @@ export default function Home() {
 
       <div style={{ marginBottom: '1.5rem' }}>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          {mode === 'quiz' ? 'Practice Quizzes' : 'Learn Concepts'}
+          {mode === ('quiz' as Mode) ? 'Practice Quizzes' : 'Learn Concepts'}
         </h2>
         <p style={{ color: 'var(--secondary)' }}>
-          {mode === 'quiz' ? 'Select a category to start practicing.' : 'Choose a topic to learn the fundamentals.'}
+          {mode === ('quiz' as Mode) ? 'Select a category to start practicing.' : 'Choose a topic to learn the fundamentals.'}
         </p>
       </div>
 
@@ -165,5 +164,6 @@ export default function Home() {
         onSave={setDifficulty}
       />
     </div>
-  );
+    );
+  }
 }
